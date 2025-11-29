@@ -1,6 +1,42 @@
 ﻿namespace BookTrack.Core.Enums;
 
-public class BookGenreEnum
+public enum BookGenreEnum
 {
-    
+    Fiction = 1,
+    NonFiction = 2,
+    Mystery = 3,
+    Thriller = 4,
+    Romance = 5,
+    ScienceFiction = 6,
+    Fantasy = 7,
+    Horror = 8,
+    Biography = 9,
+    Autobiography = 10,
+    History = 11,
+    SelfHelp = 12,
+    BusinessAndEconomics = 13,
+    Psychology = 14,
+    Philosophy = 15,
+    Religion = 16,
+    Science = 17,
+    Technology = 18,
+    Cooking = 19,
+    Travel = 20,
+    ChildrensLiterature = 21,
+    YoungAdult = 22,
+    Poetry = 23,
+    Drama = 24,
+    Comics = 25,
+    GraphicNovel = 26,
+    Crime = 27,
+    Adventure = 28,
+    Historical = 29,
+    Humor = 30,
+    Dystopian = 31,
+    Memoir = 32,
+    TrueCrime = 33,
+    ParanormalRomance = 34,
+    UrbanFantasy = 35,
+    LiteraryFiction = 36,
+    ClassicLiterature = 37
 }

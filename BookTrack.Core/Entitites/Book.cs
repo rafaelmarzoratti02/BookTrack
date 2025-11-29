@@ -4,6 +4,17 @@ namespace BookTrack.Core.Entitites;
 
 public class Book : BaseEntity
 {
+    public Book(string title, string description, string isbn, string author, BookGenreEnum genre, int yearOfPublication, int numberOfPages) :base()
+    {
+        Title = title;
+        Description = description;
+        ISBN = isbn;
+        Author = author;
+        Genre = genre;
+        YearOfPublication = yearOfPublication;
+        NumberOfPages = numberOfPages;
+    }
+
     public string Title { get; set; }
     public string Description { get; set; }
     public string ISBN { get; set; }

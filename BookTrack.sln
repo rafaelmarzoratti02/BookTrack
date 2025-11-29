@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTrack.Application", "Bo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTrack.Infra", "BookTrack.Infra\BookTrack.Infra.csproj", "{46C8DC8F-9A21-4C6C-8C26-61EE94CADF71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTrack.Shared", "BookTrack.Shared\BookTrack.Shared.csproj", "{043672BA-C6D7-4A82-B8BC-895CAEA2A79B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{46C8DC8F-9A21-4C6C-8C26-61EE94CADF71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46C8DC8F-9A21-4C6C-8C26-61EE94CADF71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46C8DC8F-9A21-4C6C-8C26-61EE94CADF71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{043672BA-C6D7-4A82-B8BC-895CAEA2A79B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{043672BA-C6D7-4A82-B8BC-895CAEA2A79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{043672BA-C6D7-4A82-B8BC-895CAEA2A79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{043672BA-C6D7-4A82-B8BC-895CAEA2A79B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
