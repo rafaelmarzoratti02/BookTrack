@@ -4,7 +4,11 @@ namespace BookTrack.Core.Entitites;
 
 public class Book : BaseEntity
 {
-    public Book(string title, string description, string isbn, string author, BookGenreEnum genre, int yearOfPublication, int numberOfPages) :base()
+    public Book()
+    {
+        
+    }
+    public Book(string title, string description, string isbn, string author, BookGenreEnum genre, int yearOfPublication, int numberOfPages)
     {
         Title = title;
         Description = description;
@@ -13,7 +17,10 @@ public class Book : BaseEntity
         Genre = genre;
         YearOfPublication = yearOfPublication;
         NumberOfPages = numberOfPages;
+        AverageRating = 0;
+        Reviews = [];
     }
+
 
     public string Title { get; set; }
     public string Description { get; set; }
@@ -22,8 +29,7 @@ public class Book : BaseEntity
     public BookGenreEnum Genre { get; set; }
     public int YearOfPublication { get; set; }
     public int NumberOfPages { get; set; }
-    public DateTime AverageRating { get; set; }
-    public byte BookCover { get; set; }
+    public decimal AverageRating { get; set; }
     public List<Review> Reviews { get; set; }
 }
 
