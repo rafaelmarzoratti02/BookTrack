@@ -1,5 +1,4 @@
-﻿using BookTrack.Core.Entitites;
-using BookTrack.Core.Enums;
+﻿using BookTrack.Core.Enums;
 
 namespace BookTrack.Shared.InputModels;
 
