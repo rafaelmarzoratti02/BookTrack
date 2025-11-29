@@ -2,7 +2,7 @@
 
 namespace BookTrack.Shared.InputModels;
 
-public class BookInputModel
+public class CreateBookInputModel
 {
     public string Title { get; set; }
     public string Description { get; set; }

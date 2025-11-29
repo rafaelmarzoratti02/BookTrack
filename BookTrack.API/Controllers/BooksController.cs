@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BookTrack.Application.Services;
+using BookTrack.Shared.InputModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookTrack.API.Controllers;
 
@@ -6,9 +8,45 @@ namespace BookTrack.API.Controllers;
 [Route("api/books")]
 public class BooksController : Controller
 {
-    [HttpGet]
-    public IActionResult Get()
+    private readonly IBookService _bookService;
+
+    public BooksController(IBookService bookService)
     {
-        return Ok();
+        _bookService = bookService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var books =await _bookService.GetALl();
+        return Ok(books);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var book = await _bookService.GetById(id);
+        return Ok(book);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Post(CreateBookInputModel model)
+    {
+        var book = await _bookService.Insert(model);
+        return CreatedAtAction(nameof(GetById), new { id = book }, model);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Put(UpdateBookInputModel model)
+    {
+        var book = _bookService.Update(model);
+        return NoContent();
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var book = _bookService.Delete(id);
+        return NoContent();
     }
 }

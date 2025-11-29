@@ -4,10 +4,17 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>d7b39b83-f157-4841-bb71-6a4612f41679</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BookTrack.Application\BookTrack.Application.csproj" />
+      <ProjectReference Include="..\BookTrack.Infra\BookTrack.Infra.csproj" />
+      <ProjectReference Include="..\BookTrack.Shared\BookTrack.Shared.csproj" />
     </ItemGroup>
 
 </Project>
