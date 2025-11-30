@@ -1,4 +1,5 @@
-﻿using BookTrack.Shared.Exceptions;
+﻿using BookTrack.Core.Exceptions;
+using BookTrack.Shared.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,7 +46,7 @@ public class GlobalExcepetionHandler : IExceptionHandler
             problemDetails = new ProblemDetails
             {
                 Status = StatusCodes.Status404NotFound,
-                Title = "user id or book id not found",
+                Title = "User id or book id not found",
                 Detail = idNotFoundEx.Message,
                 Instance = httpContext.Request.Path
             };
@@ -54,7 +55,7 @@ public class GlobalExcepetionHandler : IExceptionHandler
             problemDetails = new ProblemDetails
             {
                 Status = StatusCodes.Status404NotFound,
-                Title = "User already have a review for this book",
+                Title = "Rreview already exists",
                 Detail = reviewAlreadyExistsEx.Message,
                 Instance = httpContext.Request.Path
             };

@@ -1,4 +1,5 @@
-﻿using BookTrack.Infra.Persistence;
+﻿using BookTrack.Core.Exceptions;
+using BookTrack.Infra.Persistence;
 using BookTrack.Shared.Exceptions;
 using BookTrack.Shared.InputModels;
 using BookTrack.Shared.InputModels.Books;

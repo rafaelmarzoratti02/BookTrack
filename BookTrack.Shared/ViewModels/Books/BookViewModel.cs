@@ -5,7 +5,7 @@ namespace BookTrack.Shared.ViewModels.Books;
 
 public class BookViewModel
 {
-    public BookViewModel(string title, string description, string isbn, string author, BookGenreEnum genre, int yearOfPublication, int numberOfPages, List<int> reviews)
+    public BookViewModel(string title, string description, string isbn, string author, BookGenreEnum genre, int yearOfPublication, int numberOfPages, decimal averageRating, List<int> reviews)
     {
         Title = title;
         Description = description;
@@ -14,6 +14,7 @@ public class BookViewModel
         Genre = genre;
         YearOfPublication = yearOfPublication;
         NumberOfPages = numberOfPages;
+        AverageRating = averageRating;
         Reviews = reviews;
     }
 
@@ -24,6 +25,7 @@ public class BookViewModel
     public BookGenreEnum Genre { get; set; }
     public int YearOfPublication { get; set; }
     public int NumberOfPages { get; set; }
+    public decimal AverageRating  { get; set; }
     public List<int> Reviews { get; set; }
     
     
@@ -34,6 +36,6 @@ public class BookViewModel
         if (book.Reviews is not null)
              reviews = book.Reviews.Select(e => e.Rating).ToList();
         
-        return new BookViewModel(book.Title, book.Description, book.ISBN,book.Author, book.Genre, book.YearOfPublication,book.NumberOfPages, reviews);
+        return new BookViewModel(book.Title, book.Description, book.ISBN,book.Author, book.Genre, book.YearOfPublication,book.NumberOfPages,book.AverageRating, reviews);
     }
 }
