@@ -5,6 +5,7 @@ using BookTrack.Shared.InputModels;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Identity.Client;
 
 namespace BookTrack.Application;
 
@@ -21,7 +22,10 @@ public static class ApplicationModule
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
+
         services.AddScoped<IBookService, BookService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IReviewService, ReviewService>();
         return services;
     }
 

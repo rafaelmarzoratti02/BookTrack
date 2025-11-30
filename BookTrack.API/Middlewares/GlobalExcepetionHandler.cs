@@ -31,6 +31,24 @@ public class GlobalExcepetionHandler : IExceptionHandler
                 Detail = notFoundEx.Message,
                 Instance = httpContext.Request.Path
             };
+        }else if (exception is IsbnAlreadyExistsException isbnAlreadyExistsEx)
+        {
+            problemDetails = new ProblemDetails
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Title = "Isbn already exists",
+                Detail = isbnAlreadyExistsEx.Message,
+                Instance = httpContext.Request.Path
+            };
+        }else if (exception is IdNotFoundOnInsertReviewException idNotFoundEx)
+        {
+            problemDetails = new ProblemDetails
+            {
+                Status = StatusCodes.Status404NotFound,
+                Title = "user id or book id not found",
+                Detail = idNotFoundEx.Message,
+                Instance = httpContext.Request.Path
+            };
         }
         else
         {

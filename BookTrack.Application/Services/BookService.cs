@@ -1,7 +1,9 @@
 ﻿using BookTrack.Infra.Persistence;
 using BookTrack.Shared.Exceptions;
 using BookTrack.Shared.InputModels;
+using BookTrack.Shared.InputModels.Books;
 using BookTrack.Shared.ViewModels;
+using BookTrack.Shared.ViewModels.Books;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookTrack.Application.Services;
@@ -18,7 +20,7 @@ public class BookService : IBookService
 
     public async Task<List<BookItemViewModel>> GetAll()
     {
-        var books = await _dbContext.Books.ToListAsync();
+        var books = await _dbContext.Books.Where(x=> x.IsActive).ToListAsync();
         var model = books.Select(x => BookItemViewModel.FromEntity(x)).ToList();
 
         return model;
@@ -26,7 +28,7 @@ public class BookService : IBookService
 
     public async Task<BookViewModel> GetById(int id)
     {
-        var book =  await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
+        var book =  await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
         
         if(book is null)
             throw new NotFoundException();
@@ -38,27 +40,37 @@ public class BookService : IBookService
 
     public async Task<int> Insert(CreateBookInputModel model)
     {
+        var isbnExists = await _dbContext.Books.AnyAsync(x => x.ISBN == model.ISBN);
+        if(isbnExists)
+            throw new IsbnAlreadyExistsException();
+        
         var book = model.ToEntity();
         
-       await _dbContext.Books.AddAsync(book);
-       await _dbContext.SaveChangesAsync();
+        await _dbContext.Books.AddAsync(book);
+        await _dbContext.SaveChangesAsync();
        
-       return book.Id;
+        return book.Id;
     }
 
     public async Task Update(UpdateBookInputModel model)
     {
         var book  = await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == model.IdBook);
+        
+        if(book is null)
+            throw new NotFoundException();
+        
         book.Update(model.Title, model.Description,model.YearOfPublication);
         
         _dbContext.Books.Update(book); 
         await _dbContext.SaveChangesAsync();
-        
     }
 
     public async Task Delete(int id)
     {
         var book = await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
+        if(book is null)
+            throw new NotFoundException();
+        
         book.SetAsDeleted();
         
         _dbContext.Books.Update(book);

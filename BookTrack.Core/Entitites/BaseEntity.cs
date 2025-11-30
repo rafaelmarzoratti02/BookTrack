@@ -4,7 +4,7 @@ public class BaseEntity
 {
     public BaseEntity()
     {
-        IsActive = false;
+        IsActive = true;
         CreatedOn = DateTime.Now;
     }
 

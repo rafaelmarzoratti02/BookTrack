@@ -1,6 +1,6 @@
 ﻿using BookTrack.Core.Entitites;
 
-namespace BookTrack.Shared.InputModels;
+namespace BookTrack.Shared.InputModels.Books;
 
 public class BookItemViewModel
 {

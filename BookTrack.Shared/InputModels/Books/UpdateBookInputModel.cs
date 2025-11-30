@@ -1,6 +1,4 @@
-﻿using BookTrack.Core.Enums;
-
-namespace BookTrack.Shared.InputModels;
+﻿namespace BookTrack.Shared.InputModels.Books;
 
 public class UpdateBookInputModel
 {

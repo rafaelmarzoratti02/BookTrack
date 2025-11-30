@@ -1,5 +1,6 @@
 ﻿using BookTrack.Core.Entitites;
 using BookTrack.Shared.InputModels;
+using BookTrack.Shared.InputModels.Books;
 using FluentValidation;
 
 namespace BookTrack.Application.Validators;

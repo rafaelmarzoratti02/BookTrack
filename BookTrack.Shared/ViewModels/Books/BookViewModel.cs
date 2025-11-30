@@ -1,7 +1,7 @@
 ﻿using BookTrack.Core.Entitites;
 using BookTrack.Core.Enums;
 
-namespace BookTrack.Shared.ViewModels;
+namespace BookTrack.Shared.ViewModels.Books;
 
 public class BookViewModel
 {

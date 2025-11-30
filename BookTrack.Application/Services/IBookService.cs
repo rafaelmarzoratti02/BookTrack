@@ -1,5 +1,6 @@
 ﻿using BookTrack.Shared.InputModels;
-using BookTrack.Shared.ViewModels;
+using BookTrack.Shared.InputModels.Books;
+using BookTrack.Shared.ViewModels.Books;
 
 namespace BookTrack.Application.Services;
 

@@ -1,6 +1,7 @@
 ﻿using BookTrack.Application.Services;
 using BookTrack.Application.Validators;
 using BookTrack.Shared.InputModels;
+using BookTrack.Shared.InputModels.Books;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookTrack.API.Controllers;

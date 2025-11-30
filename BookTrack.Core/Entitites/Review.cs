@@ -2,12 +2,15 @@
 
 public class Review : BaseEntity
 {
-    public Review(int rating, string description, int idUser, int idBook)
+    public Review(int rating, string description, int idUser, int idBook, DateTime dateCreated, DateTime readingStartDate, DateTime readingEndDate)
     {
         Rating = rating;
         Description = description;
         IdUser = idUser;
         IdBook = idBook;
+        DateCreated = DateTime.Now;
+        ReadingStartDate = readingStartDate;
+        ReadingEndDate = readingEndDate;
     }
 
     public int Rating { get; set; }
@@ -16,4 +19,7 @@ public class Review : BaseEntity
     public User User { get; set; }
     public int IdBook { get; set; }
     public Book Book { get; set; }
+    public DateTime DateCreated { get; set; }
+    public DateTime ReadingStartDate { get; set; }
+    public DateTime ReadingEndDate  { get; set; }
 }
