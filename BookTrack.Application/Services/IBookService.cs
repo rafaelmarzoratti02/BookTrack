@@ -5,7 +5,7 @@ namespace BookTrack.Application.Services;
 
 public interface IBookService
 {
-    Task<List<BookItemViewModel>> GetALl();
+    Task<List<BookItemViewModel>> GetAll();
     Task<BookViewModel> GetById(int id);
     Task<int> Insert(CreateBookInputModel model);
     Task Update(UpdateBookInputModel model);

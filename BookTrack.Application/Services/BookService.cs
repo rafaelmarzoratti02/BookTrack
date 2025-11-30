@@ -1,4 +1,5 @@
 ﻿using BookTrack.Infra.Persistence;
+using BookTrack.Shared.Exceptions;
 using BookTrack.Shared.InputModels;
 using BookTrack.Shared.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ public class BookService : IBookService
         _dbContext = dbContext;
     }
 
-    public async Task<List<BookItemViewModel>> GetALl()
+    public async Task<List<BookItemViewModel>> GetAll()
     {
         var books = await _dbContext.Books.ToListAsync();
         var model = books.Select(x => BookItemViewModel.FromEntity(x)).ToList();
@@ -26,6 +27,10 @@ public class BookService : IBookService
     public async Task<BookViewModel> GetById(int id)
     {
         var book =  await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
+        
+        if(book is null)
+            throw new NotFoundException();
+        
         var model = BookViewModel.FromEntity(book);
         
         return model;

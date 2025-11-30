@@ -19,7 +19,7 @@ public class BooksController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var books =await _bookService.GetALl();
+        var books = await _bookService.GetAll();
         return Ok(books);
     }
     

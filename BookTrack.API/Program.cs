@@ -1,3 +1,5 @@
+
+using BookTrack.API.Middlewares;
 using BookTrack.Application;
 using BookTrack.Infra;
 
@@ -9,12 +11,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExcepetionHandler>();
 builder.Services
     .AddApplication()
     .AddInfra(builder.Configuration);
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
