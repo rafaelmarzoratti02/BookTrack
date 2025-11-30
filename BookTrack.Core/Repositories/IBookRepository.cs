@@ -8,4 +8,6 @@ public interface IBookRepository
     Task<Book> GetById(int id);
     Task<int> Add(Book book);
     Task<bool> IsbnExists(string isbn);
+    Task<bool> Exists(int id);
+    
 }

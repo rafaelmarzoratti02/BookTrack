@@ -29,4 +29,5 @@ public class BookRepository : IBookRepository
     }
     
     public async Task<bool> IsbnExists(string isbn) => await  _dbContext.Books.AnyAsync(x=> x.ISBN == isbn);
+    public async Task<bool> Exists(int id) => await _dbContext.Books.AnyAsync(x => x.Id == id && x.IsActive);
 }
