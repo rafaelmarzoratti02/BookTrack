@@ -1,4 +1,6 @@
-﻿using BookTrack.Infra.Persistence;
+﻿using BookTrack.Core.Repositories;
+using BookTrack.Infra.Persistence;
+using BookTrack.Infra.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +11,10 @@ public static class InfraModule
 {
     public static IServiceCollection AddInfra(this IServiceCollection services, IConfiguration configuration )
     {
-        services.AddData(configuration);
+        services
+            .AddData(configuration)
+            .AddRepositories();
+        
         return services;
     }
 
@@ -20,5 +25,13 @@ public static class InfraModule
         services.AddDbContext<BookTrackDbContext>(o => o.UseSqlServer(connectionString));
 
         return services;
+    }
+
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IBookRepository, BookRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        
+            return services;
     }
 }

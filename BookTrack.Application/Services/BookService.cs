@@ -1,4 +1,5 @@
 ﻿using BookTrack.Core.Exceptions;
+using BookTrack.Core.Repositories;
 using BookTrack.Infra.Persistence;
 using BookTrack.Shared.Exceptions;
 using BookTrack.Shared.InputModels;
@@ -12,16 +13,19 @@ namespace BookTrack.Application.Services;
 public class BookService : IBookService
 {
     
-    private readonly BookTrackDbContext _dbContext;
+    private readonly IBookRepository _bookRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public BookService(BookTrackDbContext dbContext)
+    public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork)
     {
-        _dbContext = dbContext;
+        _bookRepository = bookRepository;
+        _unitOfWork = unitOfWork;
     }
+
 
     public async Task<List<BookItemViewModel>> GetAll()
     {
-        var books = await _dbContext.Books.Where(x=> x.IsActive).ToListAsync();
+        var books = await _bookRepository.GetAll();
         var model = books.Select(x => BookItemViewModel.FromEntity(x)).ToList();
 
         return model;
@@ -29,9 +33,7 @@ public class BookService : IBookService
 
     public async Task<BookViewModel> GetById(int id)
     {
-        var book =  await _dbContext.Books
-            .Include(x=> x.Reviews)
-            .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
+        var book =  await  _bookRepository.GetById(id);
         
         if(book is null)
             throw new NotFoundException();
@@ -43,40 +45,37 @@ public class BookService : IBookService
 
     public async Task<int> Insert(CreateBookInputModel model)
     {
-        var isbnExists = await _dbContext.Books.AnyAsync(x => x.ISBN == model.ISBN);
+        var isbnExists = await _bookRepository.IsbnExists(model.ISBN);
         if(isbnExists)
             throw new IsbnAlreadyExistsException();
         
         var book = model.ToEntity();
-        
-        await _dbContext.Books.AddAsync(book);
-        await _dbContext.SaveChangesAsync();
+        await _bookRepository.Add(book);
+        await _unitOfWork.SaveChanges();
        
         return book.Id;
     }
 
     public async Task Update(UpdateBookInputModel model)
     {
-        var book  = await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == model.IdBook);
+        var book = await _bookRepository.GetById(model.IdBook);
         
         if(book is null)
             throw new NotFoundException();
         
         book.Update(model.Title, model.Description,model.YearOfPublication);
         
-        _dbContext.Books.Update(book); 
-        await _dbContext.SaveChangesAsync();
+        await _unitOfWork.SaveChanges();
     }
 
     public async Task Delete(int id)
     {
-        var book = await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
+        var book = await _bookRepository.GetById(id);
         if(book is null)
             throw new NotFoundException();
         
         book.SetAsDeleted();
         
-        _dbContext.Books.Update(book);
-        await _dbContext.SaveChangesAsync();
+        await _unitOfWork.SaveChanges();
     }
 }
