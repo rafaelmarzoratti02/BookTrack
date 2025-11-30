@@ -1,4 +1,5 @@
 ﻿using BookTrack.Application.Services;
+using BookTrack.Application.Validators;
 using BookTrack.Shared.InputModels;
 using Microsoft.AspNetCore.Mvc;
 

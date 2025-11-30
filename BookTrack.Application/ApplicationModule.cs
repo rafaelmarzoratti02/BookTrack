@@ -1,5 +1,7 @@
 ﻿using BookTrack.Application.Services;
+using BookTrack.Application.Validators;
 using BookTrack.Core.Entitites;
+using BookTrack.Shared.InputModels;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +27,7 @@ public static class ApplicationModule
 
     private static IServiceCollection AddValidators(this IServiceCollection services)
     {
-        services.AddFluentValidationAutoValidation().AddValidatorsFromAssemblyContaining<BookService>();
+        services.AddFluentValidationAutoValidation().AddValidatorsFromAssemblyContaining<CreateBookInputModelValidator>();
         return services;
     }
 }
