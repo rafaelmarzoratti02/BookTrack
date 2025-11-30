@@ -28,7 +28,9 @@ public class BookService : IBookService
 
     public async Task<BookViewModel> GetById(int id)
     {
-        var book =  await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
+        var book =  await _dbContext.Books
+            .Include(x=> x.Reviews)
+            .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
         
         if(book is null)
             throw new NotFoundException();

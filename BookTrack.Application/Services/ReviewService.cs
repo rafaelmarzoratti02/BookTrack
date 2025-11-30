@@ -21,9 +21,15 @@ public class ReviewService : IReviewService
         
         var bookExists = await _dbContext.Books.AnyAsync(x=> x.Id == review.IdBook);
         var userExists = await _dbContext.Users.AnyAsync(x=> x.Id == review.IdUser);
-
+       
+        
         if (!bookExists || !userExists)
             throw new IdNotFoundOnInsertReviewException();
+        
+        var reviewExists = await _dbContext.Reviews.AnyAsync(x=> x.IdBook == review.IdBook && x.IdUser == review.IdUser);
+
+        if (reviewExists)
+            throw new ReviewAlreadyExistsException();
         
         await _dbContext.Reviews.AddAsync(review);
         await UpdateBookAverageRating(review.IdBook);

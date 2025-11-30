@@ -31,8 +31,7 @@ public class UserService : IUserService
         var user =  await _dbContext.Users
                 .Include(x => x.Reviews)
                 .ThenInclude(x=> x.Book)
-                .FirstOrDefaultAsync(u => u.Id == userId && u.IsActive == true)
-;
+                .FirstOrDefaultAsync(u => u.Id == userId && u.IsActive == true);
 
         if (user is null)
             throw new NotFoundException();

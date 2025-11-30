@@ -49,6 +49,15 @@ public class GlobalExcepetionHandler : IExceptionHandler
                 Detail = idNotFoundEx.Message,
                 Instance = httpContext.Request.Path
             };
+        }else if (exception is ReviewAlreadyExistsException reviewAlreadyExistsEx)
+        {
+            problemDetails = new ProblemDetails
+            {
+                Status = StatusCodes.Status404NotFound,
+                Title = "User already have a review for this book",
+                Detail = reviewAlreadyExistsEx.Message,
+                Instance = httpContext.Request.Path
+            };
         }
         else
         {
