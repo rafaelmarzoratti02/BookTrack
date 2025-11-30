@@ -1,32 +1,62 @@
-﻿using BookTrack.Shared.InputModels;
+﻿using BookTrack.Infra.Persistence;
+using BookTrack.Shared.InputModels;
 using BookTrack.Shared.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookTrack.Application.Services;
 
 public class BookService : IBookService
 {
-    public Task<List<BookItemViewModel>> GetALl()
+    
+    private readonly BookTrackDbContext _dbContext;
+
+    public BookService(BookTrackDbContext dbContext)
     {
-        throw new NotImplementedException();
+        _dbContext = dbContext;
     }
 
-    public Task<BookViewModel> GetById(int id)
+    public async Task<List<BookItemViewModel>> GetALl()
     {
-        throw new NotImplementedException();
+        var books = await _dbContext.Books.ToListAsync();
+        var model = books.Select(x => BookItemViewModel.FromEntity(x)).ToList();
+
+        return model;
     }
 
-    public Task<int> Insert(CreateBookInputModel model)
+    public async Task<BookViewModel> GetById(int id)
     {
-        throw new NotImplementedException();
+        var book =  await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
+        var model = BookViewModel.FromEntity(book);
+        
+        return model;
     }
 
-    public Task Update(UpdateBookInputModel model)
+    public async Task<int> Insert(CreateBookInputModel model)
     {
-        throw new NotImplementedException();
+        var book = model.ToEntity();
+        
+       await _dbContext.Books.AddAsync(book);
+       await _dbContext.SaveChangesAsync();
+       
+       return book.Id;
     }
 
-    public Task Delete(int id)
+    public async Task Update(UpdateBookInputModel model)
     {
-        throw new NotImplementedException();
+        var book  = await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == model.IdBook);
+        book.Update(model.Title, model.Description,model.YearOfPublication);
+        
+        _dbContext.Books.Update(book); 
+        await _dbContext.SaveChangesAsync();
+        
+    }
+
+    public async Task Delete(int id)
+    {
+        var book = await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
+        book.SetAsDeleted();
+        
+        _dbContext.Books.Update(book);
+        await _dbContext.SaveChangesAsync();
     }
 }

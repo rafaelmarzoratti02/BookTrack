@@ -1,4 +1,5 @@
-﻿using BookTrack.Core.Enums;
+﻿using BookTrack.Core.Entitites;
+using BookTrack.Core.Enums;
 
 namespace BookTrack.Shared.InputModels;
 
@@ -11,4 +12,7 @@ public class CreateBookInputModel
     public BookGenreEnum Genre { get; set; }
     public int YearOfPublication { get; set; }
     public int NumberOfPages { get; set; }
+    
+    public Book ToEntity()
+        => new(Title, Description, ISBN, Author, Genre, YearOfPublication, NumberOfPages);
 }

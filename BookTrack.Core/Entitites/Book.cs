@@ -6,8 +6,8 @@ public class Book : BaseEntity
 {
     public Book()
     {
-        
     }
+    
     public Book(string title, string description, string isbn, string author, BookGenreEnum genre, int yearOfPublication, int numberOfPages)
     {
         Title = title;
@@ -31,5 +31,12 @@ public class Book : BaseEntity
     public int NumberOfPages { get; set; }
     public decimal AverageRating { get; set; }
     public List<Review> Reviews { get; set; }
+
+    public void Update(string title, string description, int yearOfPublication)
+    {
+        Title = title;
+        Description = description; 
+        YearOfPublication = yearOfPublication;
+    }
 }
 
