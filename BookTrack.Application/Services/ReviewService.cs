@@ -23,7 +23,6 @@ public class ReviewService : IReviewService
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-
     public async Task<int> Insert(CreateReviewInputModel model)
     {
         var review = model.ToEntity();
