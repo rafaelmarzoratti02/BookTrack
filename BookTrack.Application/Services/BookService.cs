@@ -13,19 +13,17 @@ namespace BookTrack.Application.Services;
 public class BookService : IBookService
 {
     
-    private readonly IBookRepository _bookRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork)
+    public BookService(IUnitOfWork unitOfWork)
     {
-        _bookRepository = bookRepository;
         _unitOfWork = unitOfWork;
     }
 
 
     public async Task<List<BookItemViewModel>> GetAll()
     {
-        var books = await _bookRepository.GetAll();
+        var books = await _unitOfWork.Books.GetAll();
         var model = books.Select(x => BookItemViewModel.FromEntity(x)).ToList();
 
         return model;
@@ -33,7 +31,7 @@ public class BookService : IBookService
 
     public async Task<BookViewModel> GetById(int id)
     {
-        var book =  await  _bookRepository.GetById(id);
+        var book =  await _unitOfWork.Books.GetById(id);
         
         if(book is null)
             throw new NotFoundException();
@@ -45,37 +43,37 @@ public class BookService : IBookService
 
     public async Task<int> Insert(CreateBookInputModel model)
     {
-        var isbnExists = await _bookRepository.IsbnExists(model.ISBN);
+        var isbnExists = await _unitOfWork.Books.IsbnExists(model.ISBN);
         if(isbnExists)
             throw new IsbnAlreadyExistsException();
         
         var book = model.ToEntity();
-        await _bookRepository.Add(book);
-        await _unitOfWork.SaveChanges();
+        await _unitOfWork.Books.Add(book);
+        await _unitOfWork.CompleteAsync();
        
         return book.Id;
     }
 
     public async Task Update(UpdateBookInputModel model)
     {
-        var book = await _bookRepository.GetById(model.IdBook);
+        var book = await _unitOfWork.Books.GetById(model.IdBook);
         
         if(book is null)
             throw new NotFoundException();
         
         book.Update(model.Title, model.Description,model.YearOfPublication);
         
-        await _unitOfWork.SaveChanges();
+        await _unitOfWork.CompleteAsync();
     }
 
     public async Task Delete(int id)
     {
-        var book = await _bookRepository.GetById(id);
+        var book = await _unitOfWork.Books.GetById(id);
         if(book is null)
             throw new NotFoundException();
         
         book.SetAsDeleted();
         
-        await _unitOfWork.SaveChanges();
+        await _unitOfWork.CompleteAsync();
     }
 }

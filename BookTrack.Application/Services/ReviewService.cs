@@ -10,49 +10,43 @@ namespace BookTrack.Application.Services;
 
 public class ReviewService : IReviewService
 {
-    public ReviewService(IReviewRepository reviewRepository, IBookRepository bookRepository, IUserRepository userRepository, IUnitOfWork unitOfWork)
+    public ReviewService(IUnitOfWork unitOfWork)
     {
-        _reviewRepository = reviewRepository;
-        _bookRepository = bookRepository;
-        _userRepository = userRepository;
         _unitOfWork = unitOfWork;
     }
-
-    private readonly IReviewRepository _reviewRepository;
-    private readonly IBookRepository _bookRepository;
-    private readonly IUserRepository _userRepository;
+    
     private readonly IUnitOfWork _unitOfWork;
 
     public async Task<int> Insert(CreateReviewInputModel model)
     {
         var review = model.ToEntity();
 
-        var bookExists = await _bookRepository.Exists(model.IdBook);
-        var userExists = await _userRepository.Exists(model.IdUser);
+        var bookExists = await _unitOfWork.Books.Exists(model.IdBook);
+        var userExists = await _unitOfWork.Users.Exists(model.IdUser);
         
         if (!bookExists || !userExists)
             throw new IdNotFoundOnInsertReviewException();
         
-        var reviewExists = await _reviewRepository.ReviewAlreadyExists(model.IdBook, model.IdUser);
+        var reviewExists = await  _unitOfWork.Reviews.ReviewAlreadyExists(model.IdBook, model.IdUser);
         if (reviewExists)
             throw new ReviewAlreadyExistsException();
         
-        await _reviewRepository.Add(review);
-        await _unitOfWork.SaveChanges();
+        await _unitOfWork.Reviews.Add(review);
+        await _unitOfWork.CompleteAsync();
         
         return review.Id;
     }
 
     public async Task<List<ReviewViewModel>> GetAllByBookId(int bookId)
     {
-        var reviews = await _reviewRepository.GetAllByBookId(bookId);
+        var reviews = await _unitOfWork.Reviews.GetAllByBookId(bookId);
         var model = reviews.Select(x => ReviewViewModel.FromEntity(x)).ToList(); 
         return model;
     }
 
     public async Task<ReviewViewModel> GetById(int reviewId)
     {
-        var review = await _reviewRepository.GetById(reviewId);
+        var review = await _unitOfWork.Reviews.GetById(reviewId);
         if (review is null)
             throw new NotFoundException();
         

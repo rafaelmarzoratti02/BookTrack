@@ -14,10 +14,9 @@ public class UserRepository : IUserRepository
         _dbContext = dbContext;
     }
 
-    public async Task<int> Insert(User user)
+    public async Task Add(User user)
     {
-        await _dbContext.Users.AddAsync(user);
-        return user.Id;
+         await _dbContext.Users.AddAsync(user);
     }
 
     public async  Task<User?> GetById(int userId) => await  _dbContext.Users.SingleOrDefaultAsync(x => x.Id == userId && x.IsActive);

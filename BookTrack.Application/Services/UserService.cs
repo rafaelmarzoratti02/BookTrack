@@ -1,4 +1,5 @@
 ﻿using BookTrack.Core.Entitites;
+using BookTrack.Core.Repositories;
 using BookTrack.Infra.Persistence;
 using BookTrack.Shared.Exceptions;
 using BookTrack.Shared.InputModels.Users;
@@ -9,29 +10,26 @@ namespace BookTrack.Application.Services;
 
 public class UserService : IUserService
 {
-    private readonly BookTrackDbContext _dbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UserService(BookTrackDbContext dbContext)
+    public UserService(IUnitOfWork unitOfWork)
     {
-        _dbContext = dbContext;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<int> Insert(CreateUserInputModel model)
     {
         var user = model.ToEntity();
         
-        await _dbContext.Users.AddAsync(user);
-        await _dbContext.SaveChangesAsync();
+        await _unitOfWork.Users.Add(user);
+        await _unitOfWork.CompleteAsync();
         
         return user.Id;
     }
 
     public async Task<UserViewModel> GetById(int userId)
     {
-        var user =  await _dbContext.Users
-                .Include(x => x.Reviews)
-                .ThenInclude(x=> x.Book)
-                .FirstOrDefaultAsync(u => u.Id == userId && u.IsActive == true);
+        var user =  await _unitOfWork.Users.GetById(userId);
 
         if (user is null)
             throw new NotFoundException();
@@ -43,26 +41,24 @@ public class UserService : IUserService
 
     public async  Task Update(UpdateUserInputModel model)
     {
-        var user  = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == model.IdUser);
+        var user  = await  _unitOfWork.Users.GetById(model.IdUser);
         
         if(user is null)
             throw new NotFoundException();
         
         user.Update(model.Name);
         
-        _dbContext.Users.Update(user); 
-        await _dbContext.SaveChangesAsync();
+        await _unitOfWork.CompleteAsync();
     }
 
     public async  Task Delete(int userId)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+        var user = await _unitOfWork.Users.GetById(userId);
         if(user is null)
             throw new NotFoundException();
         
         user.SetAsDeleted();
         
-        _dbContext.Users.Update(user);
-        await _dbContext.SaveChangesAsync();
+        await _unitOfWork.CompleteAsync();
     }
 }

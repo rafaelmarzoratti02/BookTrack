@@ -2,5 +2,9 @@
 
 public interface IUnitOfWork
 {
-    Task SaveChanges();
+    IBookRepository Books { get; }
+    IReviewRepository Reviews { get; }
+    IUserRepository Users { get; }
+    
+    Task<int> CompleteAsync();
 }
