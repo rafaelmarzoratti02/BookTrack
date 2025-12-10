@@ -1,11 +1,13 @@
 ﻿using BookTrack.Application.Services;
 using BookTrack.Shared.InputModels.Reviews;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookTrack.API.Controllers;
 
 [ApiController]
 [Route("api/reviews")]
+[Authorize]
 public class ReviewsController : Controller
 {
     private readonly IReviewService _reviewService;

@@ -1,13 +1,13 @@
 ﻿using BookTrack.Application.Services;
-using BookTrack.Application.Validators;
-using BookTrack.Shared.InputModels;
 using BookTrack.Shared.InputModels.Books;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookTrack.API.Controllers;
 
 [ApiController]
 [Route("api/books")]
+[Authorize]
 public class BooksController : Controller
 {
     private readonly IBookService _bookService;

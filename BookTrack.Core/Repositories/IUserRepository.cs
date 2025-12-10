@@ -7,4 +7,5 @@ public interface IUserRepository
     Task Add(User user);
     Task<User> GetById(int userId);
     Task<bool> Exists(int userId);
+    Task<User> Login(string email, string password);
 }

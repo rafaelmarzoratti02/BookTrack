@@ -10,4 +10,5 @@ public interface IUserService
     Task<UserViewModel> GetById(int userId);
     Task Update(UpdateUserInputModel user);
     Task Delete(int userId);
+    Task<LoginViewModel> Login(LoginInputModel model);
 }

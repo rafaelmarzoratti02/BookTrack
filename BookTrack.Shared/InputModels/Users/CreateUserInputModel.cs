@@ -6,8 +6,10 @@ public class CreateUserInputModel
 {
     public string Email { get; set; }
     public string Name { get; set; }
+    public string Password { get; set; }
+    public string Role { get; set; }
     
-    public User ToEntity()
-        => new(Email,Name);
+    public User ToEntity(string passwordHash)
+        => new(Email,Name,passwordHash,Role);
 
 }

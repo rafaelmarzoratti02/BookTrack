@@ -26,7 +26,7 @@ public class ReviewService : IReviewService
         
         if (!bookExists || !userExists)
             throw new IdNotFoundOnInsertReviewException();
-        
+        // juntar em um validacao so?
         var reviewExists = await  _unitOfWork.Reviews.ReviewAlreadyExists(model.IdBook, model.IdUser);
         if (reviewExists)
             throw new ReviewAlreadyExistsException();

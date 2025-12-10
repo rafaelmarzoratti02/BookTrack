@@ -1,11 +1,13 @@
 ﻿using BookTrack.Application.Services;
 using BookTrack.Shared.InputModels.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace userTrack.API.Controllers;
 
 [ApiController]
 [Route("api/users")]
+[Authorize]
 public class UsersController : Controller
 {
     private readonly IUserService _userService;
@@ -41,5 +43,13 @@ public class UsersController : Controller
     {   
         await _userService.Delete(id);
         return NoContent();
+    }
+    
+    [HttpPut("login")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Login(LoginInputModel model)
+    {   
+        var user = await _userService.Login(model);
+        return Ok(user);
     }
 }

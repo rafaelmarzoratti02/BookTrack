@@ -22,4 +22,8 @@ public class UserRepository : IUserRepository
     public async  Task<User?> GetById(int userId) => await  _dbContext.Users.SingleOrDefaultAsync(x => x.Id == userId && x.IsActive);
     
     public async  Task<bool> Exists(int userId) => await   _dbContext.Users.AnyAsync(x => x.Id == userId && x.IsActive);
+    public async Task<User> Login(string email, string password)
+    {
+        return await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == email && x.Password == password);
+    }
 }

@@ -59,7 +59,17 @@ public class GlobalExcepetionHandler : IExceptionHandler
                 Detail = reviewAlreadyExistsEx.Message,
                 Instance = httpContext.Request.Path
             };
+        }else if (exception is InvalidOperationException  invalidOperationEx)
+        {
+            problemDetails = new ProblemDetails
+            {
+                Status = StatusCodes.Status401Unauthorized,
+                Title = "Unauthorized Access",
+                Detail = invalidOperationEx.Message,
+                Instance = httpContext.Request.Path
+            };
         }
+        
         else
         {
             problemDetails = new ProblemDetails
