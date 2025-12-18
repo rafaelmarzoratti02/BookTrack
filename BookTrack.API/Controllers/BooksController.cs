@@ -1,5 +1,7 @@
-﻿using BookTrack.Application.Services;
+﻿using BookTrack.Application.Commands.BookCommands.AddBook;
+using BookTrack.Application.Services;
 using BookTrack.Shared.InputModels.Books;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +13,13 @@ namespace BookTrack.API.Controllers;
 public class BooksController : Controller
 {
     private readonly IBookService _bookService;
+    private readonly IMediator _mediator;
 
-    public BooksController(IBookService bookService)
+
+    public BooksController(IBookService bookService, IMediator mediator )
     {
         _bookService = bookService;
+        _mediator = mediator;
     }
 
     [HttpGet]
@@ -32,10 +37,10 @@ public class BooksController : Controller
     }
     
     [HttpPost]
-    public async Task<IActionResult> Post(CreateBookInputModel model)
+    public async Task<IActionResult> Post(InsertBookCommand command)
     {
-        var book = await _bookService.Insert(model);
-        return CreatedAtAction(nameof(GetById), new { id = book }, model);
+        var book = await _mediator.Send(command);
+        return CreatedAtAction(nameof(GetById), new { id = book }, command);
     }
     
     [HttpPut]

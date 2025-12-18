@@ -1,11 +1,12 @@
-﻿using BookTrack.Core.Entitites;
+﻿using BookTrack.Application.Commands.BookCommands.AddBook;
+using BookTrack.Core.Entitites;
 using BookTrack.Shared.InputModels;
 using BookTrack.Shared.InputModels.Books;
 using FluentValidation;
 
 namespace BookTrack.Application.Validators;
 
-public class CreateBookInputModelValidator  : AbstractValidator<CreateBookInputModel>
+public class CreateBookInputModelValidator  : AbstractValidator<InsertBookCommand>
 {
     public CreateBookInputModelValidator ()
     {

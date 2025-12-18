@@ -1,9 +1,11 @@
-﻿using BookTrack.Application.Services;
+﻿using BookTrack.Application.Commands.BookCommands.AddBook;
+using BookTrack.Application.Services;
 using BookTrack.Application.Validators;
 using BookTrack.Core.Entitites;
 using BookTrack.Shared.InputModels;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
 
@@ -14,9 +16,10 @@ public static class ApplicationModule
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services
+            .AddMediator()
             .AddServices()
             .AddValidators();
-        
+
         return services;
     }
 
@@ -30,7 +33,13 @@ public static class ApplicationModule
 
     private static IServiceCollection AddValidators(this IServiceCollection services)
     {
-        services.AddFluentValidationAutoValidation().AddValidatorsFromAssemblyContaining<CreateBookInputModelValidator>();
+        services.AddFluentValidationAutoValidation().AddValidatorsFromAssemblyContaining<InsertBookCommand>();
+        return services;
+    }
+
+    private static IServiceCollection AddMediator(this IServiceCollection services)
+    {
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationModule).Assembly));
         return services;
     }
 }

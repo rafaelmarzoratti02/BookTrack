@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir /s \"C:\\Users\\Devztti\\source\\repos\\BookTrack\\BookTrack.Core\" /b)",
+      "Bash(dir \"C:\\Users\\Devztti\\source\\repos\\BookTrack\\BookTrack.Core\")"
+    ]
+  }
+}

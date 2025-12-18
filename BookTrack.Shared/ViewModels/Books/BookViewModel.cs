@@ -36,6 +36,6 @@ public class BookViewModel
         if (book.Reviews is not null)
              reviews = book.Reviews.Select(e => e.Rating).ToList();
         
-        return new BookViewModel(book.Title, book.Description, book.ISBN,book.Author, book.Genre, book.YearOfPublication,book.NumberOfPages,book.AverageRating, reviews);
+        return new BookViewModel(book.Title, book.Description, book.Isbn,book.Author, book.Genre, book.YearOfPublication,book.NumberOfPages,book.AverageRating, reviews);
     }
 }
