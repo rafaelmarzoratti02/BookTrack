@@ -8,6 +8,7 @@ public class User : BaseEntity
         Name = name;
         Password = password;
         Role = role;
+        Reviews = [];
     }
 
     public string Email { get; set; }

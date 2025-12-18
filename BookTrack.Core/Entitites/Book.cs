@@ -4,9 +4,6 @@ namespace BookTrack.Core.Entitites;
 
 public class Book : BaseEntity
 {
-    public Book()
-    {
-    }
     
     public Book(string title, string description, string isbn, string author, BookGenreEnum genre, int yearOfPublication, int numberOfPages)
     {
