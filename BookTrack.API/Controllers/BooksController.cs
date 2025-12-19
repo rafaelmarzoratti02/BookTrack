@@ -1,4 +1,5 @@
 ﻿using BookTrack.Application.Commands.BookCommands.AddBook;
+using BookTrack.Application.Commands.BookCommands.UpdateBook;
 using BookTrack.Application.Services;
 using BookTrack.Shared.InputModels.Books;
 using MediatR;
@@ -39,14 +40,14 @@ public class BooksController : Controller
     [HttpPost]
     public async Task<IActionResult> Post(InsertBookCommand command)
     {
-        var book = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetById), new { id = book }, command);
+        var response = await _mediator.Send(command);
+        return CreatedAtAction(nameof(GetById), new { id = command }, command);
     }
     
     [HttpPut]
-    public async Task<IActionResult> Put(UpdateBookInputModel model)
+    public async Task<IActionResult> Put(UpdateBookCommand command)
     {
-        await _bookService.Update(model);
+        await _mediator.Send(command);
         return NoContent();
     }
     
