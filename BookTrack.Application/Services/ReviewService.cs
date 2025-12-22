@@ -1,4 +1,5 @@
-﻿using BookTrack.Core.Exceptions;
+﻿using BookTrack.Application.ChainOfResponsibility;
+using BookTrack.Core.Exceptions;
 using BookTrack.Core.Repositories;
 using BookTrack.Infra.Persistence;
 using BookTrack.Shared.Exceptions;
@@ -20,17 +21,17 @@ public class ReviewService : IReviewService
     public async Task<int> Insert(CreateReviewInputModel model)
     {
         var review = model.ToEntity();
+        
+        var validateUserHandler = new ValidateUserHandler(_unitOfWork);
+        var validateBookHandler = new ValidateBookHandler(_unitOfWork);
+        var checkIfReviewExistsHandler = new CheckIfReviewExistsHandler(_unitOfWork);
 
-        var bookExists = await _unitOfWork.Books.Exists(model.IdBook);
-        var userExists = await _unitOfWork.Users.Exists(model.IdUser);
-        
-        if (!bookExists || !userExists)
-            throw new IdNotFoundOnInsertReviewException();
-        // juntar em um validacao so?
-        var reviewExists = await  _unitOfWork.Reviews.ReviewAlreadyExists(model.IdBook, model.IdUser);
-        if (reviewExists)
-            throw new ReviewAlreadyExistsException();
-        
+        validateUserHandler
+            .SetNext(validateBookHandler)
+            .SetNext(checkIfReviewExistsHandler);
+
+        await validateUserHandler.Handle(model);
+
         await _unitOfWork.Reviews.Add(review);
         await _unitOfWork.CompleteAsync();
         
