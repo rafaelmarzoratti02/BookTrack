@@ -19,7 +19,13 @@ public class UserRepository : IUserRepository
          await _dbContext.Users.AddAsync(user);
     }
 
-    public async  Task<User?> GetById(int userId) => await  _dbContext.Users.SingleOrDefaultAsync(x => x.Id == userId && x.IsActive);
+    public async Task<User?> GetById(int userId)
+    {
+        return await _dbContext.Users
+            .Include(x=> x.Reviews)
+            .SingleOrDefaultAsync(x => x.Id == userId && x.IsActive);
+    } 
+        
     
     public async  Task<bool> Exists(int userId) => await   _dbContext.Users.AnyAsync(x => x.Id == userId && x.IsActive);
     public async Task<User> Login(string email, string password)
