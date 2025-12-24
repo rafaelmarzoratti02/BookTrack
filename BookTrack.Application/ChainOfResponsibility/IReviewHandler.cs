@@ -2,8 +2,8 @@
 
 namespace BookTrack.Application.ChainOfResponsibility;
 
-public interface IOrderHandler
+public interface IReviewHandler
 {
     Task Handle(CreateReviewInputModel model);
-    IOrderHandler SetNext(IOrderHandler handler);
+    IReviewHandler SetNext(IReviewHandler handler);
 }

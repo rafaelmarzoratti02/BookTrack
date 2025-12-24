@@ -4,7 +4,7 @@ using BookTrack.Shared.InputModels.Reviews;
 
 namespace BookTrack.Application.ChainOfResponsibility;
 
-public class ValidateUserHandler : OrderHandler, IOrderHandler
+public class ValidateUserHandler : ReviewHandler, IReviewHandler
 {
     private readonly IUnitOfWork _unitOfWork;
 

@@ -4,7 +4,7 @@ using BookTrack.Shared.InputModels.Reviews;
 
 namespace BookTrack.Application.ChainOfResponsibility;
 
-public class CheckIfReviewExistsHandler : OrderHandler, IOrderHandler
+public class CheckIfReviewExistsHandler : ReviewHandler, IReviewHandler
 {
     private readonly IUnitOfWork _unitOfWork;
 

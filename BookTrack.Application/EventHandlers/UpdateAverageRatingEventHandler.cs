@@ -16,7 +16,7 @@ public class UpdateAverageRatingEventHandler : IDomainEventHandler<UpdateAverage
     {
         var book = await _bookRepository.GetById(domainEvent.BookId);
 
-        if (book != null && book.Reviews.Any())
+        if (book.Reviews.Count != 0)
         {
             book.AverageRating = (decimal)book.Reviews.Average(r => r.Rating);
         }

@@ -2,16 +2,16 @@
 
 namespace BookTrack.Application.ChainOfResponsibility;
 
-public abstract class OrderHandler : IOrderHandler
+public abstract class ReviewHandler : IReviewHandler
 {
-    private IOrderHandler? _nextHandler;
+    private IReviewHandler? _nextHandler;
     public virtual async Task Handle(CreateReviewInputModel model)
     {
         if (_nextHandler != null)
             await _nextHandler.Handle(model);
     }
 
-    public IOrderHandler SetNext(IOrderHandler step)
+    public IReviewHandler SetNext(IReviewHandler step)
     {
         _nextHandler = step;
 
