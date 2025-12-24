@@ -1,6 +1,4 @@
-﻿using BookTrack.Core.Entitites;
-
-namespace BookTrack.Core.Events;
+﻿namespace BookTrack.Core.Events;
 
 public class UpdateAverageRatingDomainEvent : IDomainEvent
 {
