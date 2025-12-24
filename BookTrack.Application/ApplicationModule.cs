@@ -1,13 +1,12 @@
 ﻿using BookTrack.Application.Commands.BookCommands.AddBook;
+using BookTrack.Application.EventHandlers;
 using BookTrack.Application.Services;
 using BookTrack.Application.Validators;
-using BookTrack.Core.Entitites;
-using BookTrack.Shared.InputModels;
+using BookTrack.Core.Events;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Identity.Client;
 
 namespace BookTrack.Application;
 
@@ -18,7 +17,8 @@ public static class ApplicationModule
         services
             .AddMediator()
             .AddServices()
-            .AddValidators();
+            .AddValidators()
+            .AddDomainEvents();
 
         return services;
     }
@@ -40,6 +40,14 @@ public static class ApplicationModule
     private static IServiceCollection AddMediator(this IServiceCollection services)
     {
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationModule).Assembly));
+        return services;
+    }
+
+    private static IServiceCollection AddDomainEvents(this IServiceCollection services)
+    {
+        services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
+        services.AddScoped<IDomainEventHandler<UpdateAverageRatingDomainEvent>, UpdateAverageRatingEventHandler>();
+
         return services;
     }
 }
