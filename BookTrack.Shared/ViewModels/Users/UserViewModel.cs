@@ -18,9 +18,8 @@ public class UserViewModel
     
     public static UserViewModel FromEntity(User user)
     { 
-        var reviews = new List<ReviewItemViewModel>();
-        if(user.Reviews is not null)
-            reviews = user.Reviews.Select(x => ReviewItemViewModel.FromEntity(x)).ToList();
+        List<ReviewItemViewModel> reviews;
+        reviews = user.Reviews.Select(x => ReviewItemViewModel.FromEntity(x)).ToList();
         
         return new UserViewModel(user.Email, user.Name, reviews);
     }

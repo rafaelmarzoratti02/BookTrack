@@ -23,6 +23,7 @@ public class UserRepository : IUserRepository
     {
         return await _dbContext.Users
             .Include(x=> x.Reviews)
+            .ThenInclude(x=> x.Book)
             .SingleOrDefaultAsync(x => x.Id == userId && x.IsActive);
     } 
         
