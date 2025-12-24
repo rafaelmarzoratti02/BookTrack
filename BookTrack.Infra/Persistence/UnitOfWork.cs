@@ -1,7 +1,6 @@
 ﻿using BookTrack.Core.Entitites;
 using BookTrack.Core.Events;
 using BookTrack.Core.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace BookTrack.Infra.Persistence;
 
