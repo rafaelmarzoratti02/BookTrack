@@ -1,4 +1,6 @@
-﻿namespace BookTrack.Core.Entitites;
+﻿using BookTrack.Core.Events;
+
+namespace BookTrack.Core.Entitites;
 
 public class Review : BaseEntity
 {
@@ -10,6 +12,8 @@ public class Review : BaseEntity
         IdBook = idBook;
         ReadingStartDate = readingStartDate;
         ReadingEndDate = readingEndDate;
+
+        AddDomainEvent(new UpdateAverageRatingDomainEvent(idBook));
     }
 
     public int Rating { get; set; }
