@@ -1,11 +1,12 @@
-﻿using BookTrack.Shared.InputModels.Reviews;
+﻿using BookTrack.Application.Commands.ReviewsCommands.InsertReview;
+using BookTrack.Shared.InputModels.Reviews;
 
 namespace BookTrack.Application.ChainOfResponsibility;
 
 public abstract class ReviewHandler : IReviewHandler
 {
     private IReviewHandler? _nextHandler;
-    public virtual async Task Handle(CreateReviewInputModel model)
+    public virtual async Task Handle(InsertReviewCommand model)
     {
         if (_nextHandler != null)
             await _nextHandler.Handle(model);

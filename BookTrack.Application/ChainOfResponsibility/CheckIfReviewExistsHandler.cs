@@ -1,3 +1,4 @@
+using BookTrack.Application.Commands.ReviewsCommands.InsertReview;
 using BookTrack.Core.Exceptions;
 using BookTrack.Core.Repositories;
 using BookTrack.Shared.InputModels.Reviews;
@@ -13,7 +14,7 @@ public class CheckIfReviewExistsHandler : ReviewHandler, IReviewHandler
         _unitOfWork = unitOfWork;
     }
 
-    public override async Task Handle(CreateReviewInputModel model)
+    public override async Task Handle(InsertReviewCommand model)
     {
         var reviewExists = await  _unitOfWork.Reviews.ReviewAlreadyExists(model.IdBook, model.IdUser);
         if (reviewExists)

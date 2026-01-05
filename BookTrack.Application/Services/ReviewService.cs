@@ -22,15 +22,15 @@ public class ReviewService : IReviewService
     {
         var review = model.ToEntity();
         
-        var validateUserHandler = new ValidateUserHandler(_unitOfWork);
-        var validateBookHandler = new ValidateBookHandler(_unitOfWork);
-        var checkIfReviewExistsHandler = new CheckIfReviewExistsHandler(_unitOfWork);
+        // var validateUserHandler = new ValidateUserHandler(_unitOfWork);
+        // var validateBookHandler = new ValidateBookHandler(_unitOfWork);
+        // var checkIfReviewExistsHandler = new CheckIfReviewExistsHandler(_unitOfWork);
 
-        validateUserHandler
-            .SetNext(validateBookHandler)
-            .SetNext(checkIfReviewExistsHandler);
-
-        await validateUserHandler.Handle(model);
+        // validateUserHandler
+        //     .SetNext(validateBookHandler)
+        //     .SetNext(checkIfReviewExistsHandler);
+        //
+        // await validateUserHandler.Handle(model);
 
         await _unitOfWork.Reviews.Add(review);
         await _unitOfWork.CompleteAsync();

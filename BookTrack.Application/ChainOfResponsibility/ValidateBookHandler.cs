@@ -1,3 +1,4 @@
+using BookTrack.Application.Commands.ReviewsCommands.InsertReview;
 using BookTrack.Core.Repositories;
 using BookTrack.Shared.Exceptions;
 using BookTrack.Shared.InputModels.Reviews;
@@ -13,7 +14,7 @@ public class ValidateBookHandler : ReviewHandler, IReviewHandler
         _unitOfWork = unitOfWork;
     }
 
-    public override async Task Handle(CreateReviewInputModel model)
+    public override async Task Handle(InsertReviewCommand model)
     {
         var bookExists = await  _unitOfWork.Books.Exists(model.IdBook);
         if (!bookExists)
