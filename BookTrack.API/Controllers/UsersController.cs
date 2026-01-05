@@ -3,7 +3,7 @@ using BookTrack.Shared.InputModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace userTrack.API.Controllers;
+namespace BookTrack.API.Controllers;
 
 [ApiController]
 [Route("api/users")]
