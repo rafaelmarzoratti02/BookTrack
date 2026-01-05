@@ -4,6 +4,8 @@ namespace BookTrack.Core.Entitites;
 
 public class Review : BaseEntity
 {
+    private Review() { }
+
     public Review(int rating, string description, int idUser, int idBook, DateTime readingStartDate, DateTime readingEndDate) :base()
     {
         Rating = rating;
@@ -12,8 +14,6 @@ public class Review : BaseEntity
         IdBook = idBook;
         ReadingStartDate = readingStartDate;
         ReadingEndDate = readingEndDate;
-
-        AddDomainEvent(new UpdateAverageRatingDomainEvent(idBook));
     }
 
     public int Rating { get; set; }

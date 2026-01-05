@@ -13,7 +13,13 @@ public class ReviewRepository : IReviewRepository
         _dbContext = dbContext;
     }
 
-    public async Task<List<Review>> GetAllByBookId(int bookId) => await _dbContext.Reviews.Where(x => x.IdBook == bookId).ToListAsync();
+    public async Task<List<Review>> GetAllByBookId(int bookId)
+    {
+       return  await _dbContext.Reviews
+            .Include(x => x.Book)
+            .Where(x => x.IdBook == bookId).ToListAsync();
+    }
+
 
     public async Task<Review?> GetById(int id) => await _dbContext.Reviews.SingleOrDefaultAsync(x => x.Id == id);
     
