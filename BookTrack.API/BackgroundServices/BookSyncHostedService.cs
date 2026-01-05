@@ -11,7 +11,7 @@ public class BookSyncHostedService : BackgroundService
     private readonly ILogger<BookSyncHostedService> _logger;
     private readonly IServiceProvider _serviceProvider;
     private readonly LibrarySyncOptions _options;
-a
+
     public BookSyncHostedService(
         ILogger<BookSyncHostedService> logger,
         IServiceProvider serviceProvider,
