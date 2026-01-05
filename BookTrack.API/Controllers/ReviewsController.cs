@@ -1,6 +1,7 @@
 ﻿using BookTrack.Application.Commands.ReviewsCommands.InsertReview;
 using BookTrack.Application.Queries.BookQueries.GetAllBooks;
 using BookTrack.Application.Queries.ReviewQueries.GetAllByBookId;
+using BookTrack.Application.Queries.ReviewQueries.GetReviewById;
 using BookTrack.Application.Services;
 using BookTrack.Shared.InputModels.Reviews;
 using MediatR;
@@ -15,11 +16,9 @@ namespace BookTrack.API.Controllers;
 public class ReviewsController : Controller
 {
     private readonly IMediator _mediator;
-    private readonly IReviewService _reviewService;
 
-    public ReviewsController(IMediator mediator, IReviewService reviewService)
+    public ReviewsController(IMediator mediator)
     {
-        _reviewService = reviewService;
         _mediator = mediator;
     }
 
@@ -33,7 +32,7 @@ public class ReviewsController : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var book = await _reviewService.GetById(id);
+        var book = await _mediator.Send(new GetReviewByIdQuery(id));
         return Ok(book);
     }
     
