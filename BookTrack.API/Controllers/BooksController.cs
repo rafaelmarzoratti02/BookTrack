@@ -1,5 +1,8 @@
 ﻿using BookTrack.Application.Commands.BookCommands.AddBook;
+using BookTrack.Application.Commands.BookCommands.DeleteBook;
 using BookTrack.Application.Commands.BookCommands.UpdateBook;
+using BookTrack.Application.Queries.BookQueries.GetAllBooks;
+using BookTrack.Application.Queries.BookQueries.GetBookById;
 using BookTrack.Application.Services;
 using BookTrack.Shared.InputModels.Books;
 using MediatR;
@@ -13,27 +16,24 @@ namespace BookTrack.API.Controllers;
 [Authorize]
 public class BooksController : Controller
 {
-    private readonly IBookService _bookService;
     private readonly IMediator _mediator;
 
-
-    public BooksController(IBookService bookService, IMediator mediator )
+    public BooksController( IMediator mediator )
     {
-        _bookService = bookService;
         _mediator = mediator;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var books = await _bookService.GetAll();
+        var books = await _mediator.Send(new GetAllBooksQuery());
         return Ok(books);
     }
     
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var book = await _bookService.GetById(id);
+        var book = await _mediator.Send(new GetBookByIdQuery(id));
         return Ok(book);
     }
     
@@ -54,7 +54,7 @@ public class BooksController : Controller
     [HttpDelete]
     public async Task<IActionResult> Delete(int id)
     {   
-        await _bookService.Delete(id);
+        await _mediator.Send(new DeleteBookCommand(id));
         return NoContent();
     }
 }

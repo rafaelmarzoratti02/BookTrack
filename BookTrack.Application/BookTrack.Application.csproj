@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Queries\" />
+      <Folder Include="Commands\ReviewsCommands\" />
     </ItemGroup>
 
 </Project>
