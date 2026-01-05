@@ -44,8 +44,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExcepetionHandler>();
 builder.Services
-    .AddApplication()
+    .AddApplication(builder.Configuration)
     .AddInfra(builder.Configuration);
+
+builder.Services.AddHostedService<BookTrack.API.BackgroundServices.BookSyncHostedService>();
 
 var app = builder.Build();
 

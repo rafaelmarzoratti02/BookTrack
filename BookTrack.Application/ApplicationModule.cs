@@ -1,24 +1,27 @@
 ﻿using BookTrack.Application.Commands.BookCommands.AddBook;
 using BookTrack.Application.EventHandlers;
 using BookTrack.Application.Services;
+using BookTrack.Application.Sync;
 using BookTrack.Application.Validators;
 using BookTrack.Core.Events;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BookTrack.Application;
 
 public static class ApplicationModule
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
         services
             .AddMediator()
             .AddServices()
             .AddValidators()
-            .AddDomainEvents();
+            .AddDomainEvents()
+            .AddLibrarySync(configuration);
 
         return services;
     }
@@ -47,6 +50,24 @@ public static class ApplicationModule
     {
         services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
         services.AddScoped<IDomainEventHandler<UpdateAverageRatingDomainEvent>, UpdateAverageRatingEventHandler>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddLibrarySync(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<LibrarySyncOptions>(configuration.GetSection("LibrarySync"));
+
+        services.AddHttpClient<ILibrarySyncService, LibrarySyncService>()
+            .ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                var handler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback =
+                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                };
+                return handler;
+            });
 
         return services;
     }
