@@ -11,7 +11,7 @@ namespace BookTrack.API.Controllers;
 
 [ApiController]
 [Route("api/reviews")]
-// [Authorize]
+[Authorize]
 public class ReviewsController : Controller
 {
     private readonly IMediator _mediator;
